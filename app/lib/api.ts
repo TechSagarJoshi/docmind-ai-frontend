@@ -166,3 +166,33 @@ export async function updateProfile(updates: Record<string, string>) {
   }
   return res.json();
 }
+export async function getSettings() {
+  const headers = await authHeaders();
+  const res = await fetch(`${API}/api/profile/settings`, { headers });
+  if (!res.ok) throw new Error("Failed to load settings");
+  return res.json();
+}
+
+export async function updateSettings(updates: Record<string, any>) {
+  const headers = await authHeaders();
+  const res = await fetch(`${API}/api/profile/settings`, {
+    method: "PATCH",
+    headers: { ...headers, "Content-Type": "application/json" },
+    body: JSON.stringify(updates),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || "Failed to update settings");
+  }
+  return res.json();
+}
+
+export async function deleteAllFiles() {
+  const headers = await authHeaders();
+  const res = await fetch(`${API}/api/profile/delete-all-files`, {
+    method: "POST",
+    headers,
+  });
+  if (!res.ok) throw new Error("Failed to delete files");
+  return res.json();
+}
