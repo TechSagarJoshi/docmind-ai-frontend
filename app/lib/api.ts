@@ -139,3 +139,30 @@ export async function postFile(
   }
   return res.blob();
 }
+
+export async function getProfile() {
+  const headers = await authHeaders();
+  const res = await fetch(`${API}/api/profile`, { headers });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || "Failed to load profile");
+  }
+  return res.json();
+}
+
+export async function updateProfile(updates: Record<string, string>) {
+  const headers = await authHeaders();
+  const res = await fetch(`${API}/api/profile`, {
+    method: "PATCH",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updates),
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || "Failed to update profile");
+  }
+  return res.json();
+}

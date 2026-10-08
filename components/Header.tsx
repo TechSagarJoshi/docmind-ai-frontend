@@ -75,7 +75,10 @@ export default function Header() {
     <header className="sticky top-0 z-50 border-b border-white/40 bg-white/70 backdrop-blur-xl">
       <div className="max-w-6xl mx-auto px-6 py-3 flex items-center gap-4">
         {/* Logo */}
-        <Link href={email ? "/dashboard" : "/"} className="flex items-center gap-2 group flex-shrink-0">
+        <Link
+          href={email ? "/dashboard" : "/"}
+          className="flex items-center gap-2 group flex-shrink-0"
+        >
           <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
             <Sparkles className="w-4 h-4 text-white" strokeWidth={2.5} />
           </div>
@@ -106,12 +109,11 @@ export default function Header() {
           </nav>
         )}
 
-        {/* Right side */}
         <div className="flex-1" />
 
         {email ? (
           <div className="flex items-center gap-2">
-            {/* Search (desktop) */}
+            {/* Search */}
             <button
               className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/60 backdrop-blur border border-white/60 hover:bg-white text-slate-500 hover:text-slate-700 transition-colors text-sm"
               title="Search (coming soon)"
@@ -168,20 +170,22 @@ export default function Header() {
                       <LayoutDashboard className="w-4 h-4 text-slate-400" />
                       Dashboard
                     </Link>
-                    <button
+                    <Link
+                      href="/profile"
                       onClick={() => setDropdownOpen(false)}
-                      className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
+                      className="flex items-center gap-3 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
                     >
                       <User className="w-4 h-4 text-slate-400" />
                       Profile
-                    </button>
-                    <button
+                    </Link>
+                    <Link
+                      href="/settings"
                       onClick={() => setDropdownOpen(false)}
-                      className="w-full flex items-center gap-3 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
+                      className="flex items-center gap-3 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 transition-colors"
                     >
                       <Settings className="w-4 h-4 text-slate-400" />
                       Settings
-                    </button>
+                    </Link>
                   </div>
 
                   {/* Logout */}
