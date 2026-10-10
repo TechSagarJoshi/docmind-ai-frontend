@@ -50,15 +50,30 @@ export default function SettingsPage() {
   }, [router]);
 
   async function load() {
-    try {
-      const res = await getSettings();
-      setSettings(res.settings);
-    } catch (e: any) {
-      setMessage("❌ " + e.message);
-    } finally {
-      setLoading(false);
-    }
+  const DEFAULT_SETTINGS: Settings = {
+    theme: "system",
+    notifications_email: true,
+    notifications_marketing: false,
+    default_output_format: "jpg",
+    auto_delete_days: 0,
+    analytics_opt_in: true,
+  };
+
+  try {
+    const res = await getSettings();
+    // Merge returned settings with defaults (fills any missing fields)
+    setSettings({
+      ...DEFAULT_SETTINGS,
+      ...(res.settings || {}),
+    });
+  } catch (e: any) {
+    // Even if backend fails, use defaults so buttons work
+    setSettings(DEFAULT_SETTINGS);
+    console.warn("Using default settings:", e.message);
+  } finally {
+    setLoading(false);
   }
+}
 
   function update<K extends keyof Settings>(key: K, value: Settings[K]) {
     setSettings((s) => (s ? { ...s, [key]: value } : s));
